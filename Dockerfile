@@ -44,11 +44,14 @@ RUN apt update -y \
     wget \
     zip \
     zstd \
+    libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb \
     && ln -sf /usr/bin/python3 /usr/bin/python \
     && ln -sf /usr/bin/pip3 /usr/bin/pip \
     && rm -rf /var/lib/apt/lists/*
 
 RUN npm install --global yarn
+
+RUN yarn upgrade-interactive --latest
 
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
@@ -123,7 +126,7 @@ COPY entrypoint.sh /
 COPY --chown=runner:docker patched $RUNNER_ASSETS_DIR/patched
 
 # set docker pull proxy
-COPY daemon.json /etc/docker/daemon.json
+# COPY daemon.json /etc/docker/daemon.json
 
 # Add the Python "User Script Directory" to the PATH
 ENV PATH="${PATH}:${HOME}/.local/bin"
@@ -133,4 +136,3 @@ USER runner
 
 ENTRYPOINT ["/usr/local/bin/dumb-init", "--"]
 CMD ["/entrypoint.sh"]
-

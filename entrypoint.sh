@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # set proxy
-go env -w GO111MODULE=on
-go env -w GOPROXY=https://goproxy.cn,direct
+# go env -w GO111MODULE=on
+# go env -w GOPROXY=https://goproxy.cn,direct
 
 if [ ! -z "${STARTUP_DELAY_IN_SECONDS}" ]; then
   echo "Delaying startup by ${STARTUP_DELAY_IN_SECONDS} seconds" 1>&2
