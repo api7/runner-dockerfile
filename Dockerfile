@@ -53,8 +53,6 @@ RUN npm install --global yarn
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
 
-RUN export PATH=$PATH:$(go env GOPATH)/bin
-
 # arch command on OS X reports "i386" for Intel CPUs regardless of bitness
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
     && if [ "$ARCH" = "arm64" ]; then export ARCH=aarch64 ; fi \
@@ -128,7 +126,7 @@ COPY --chown=runner:docker patched $RUNNER_ASSETS_DIR/patched
 # COPY daemon.json /etc/docker/daemon.json
 
 # Add the Python "User Script Directory" to the PATH
-ENV PATH="${PATH}:${HOME}/.local/bin"
+ENV PATH="${PATH}:${HOME}/.local/bin:$(go env GOPATH)/bin"
 ENV ImageOS=ubuntu20
 
 USER runner
