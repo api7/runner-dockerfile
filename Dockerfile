@@ -53,6 +53,8 @@ RUN npm install --global yarn
 RUN curl -L "https://github.com/docker/compose/releases/download/1.29.2/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose \
     && chmod +x /usr/local/bin/docker-compose
 
+RUN export PATH=$PATH:$(go env GOPATH)/bin
+
 # arch command on OS X reports "i386" for Intel CPUs regardless of bitness
 RUN export ARCH=$(echo ${TARGETPLATFORM} | cut -d / -f2) \
     && if [ "$ARCH" = "arm64" ]; then export ARCH=aarch64 ; fi \
